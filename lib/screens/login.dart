@@ -11,19 +11,29 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController passwordcontroller = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  bool isLoginPage = false ;
   signin(String email , String password) async{
     final auth = FirebaseAuth.instance;
     try {
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      String? uid = userCredential.user?.uid;
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .set({'email': email});
-      print('done');
+      if(!isLoginPage) {
+        UserCredential userCredential = await auth
+            .createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+        String? uid = userCredential.user?.uid;
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(uid)
+            .set({'email': email});
+        print('done');
+      }else{
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+
+        );
+      }
     }catch(e){
       print(e);
     }
@@ -54,14 +64,21 @@ class _LoginState extends State<Login> {
 
 SizedBox(height: 25,),
              Center(
-               child: Text('Sign in into your personal password manager :)',
+               child: isLoginPage? Text( 'Login into your personal password manager :)',
                   style: TextStyle(
                     fontFamily: 'Raleway',
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w300
                   ),
-                ),
+                ):  Text( 'Sign in into your personal password manager :)',
+                 style: TextStyle(
+                     fontFamily: 'Raleway',
+                     color: Colors.white,
+                     fontSize: 16,
+                     fontWeight: FontWeight.w300
+                 ),
+               ),
              ),
 
             Padding(
@@ -135,7 +152,7 @@ SizedBox(height: 25,),
                    signin(emailController.text, passwordcontroller.text);
 print(passwordcontroller.text);
                   },
-                  child: Text('Sign In',
+                  child: Text(isLoginPage? 'Login':'Sign In',
                     style: TextStyle(
                       fontFamily: 'Raleway',
                       color: Colors.white,
@@ -144,7 +161,14 @@ print(passwordcontroller.text);
                   ),
                 ),
               ),
-            )
+            ),
+            SizedBox(height: 10,),
+            Container(
+              child: TextButton(onPressed: () {
+                setState(() {
+                  isLoginPage = !isLoginPage;
+                });
+              },child: isLoginPage? Text('Not a member?') : Text('Already a member?'),),)
           ],
         ),
       ),
