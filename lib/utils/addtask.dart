@@ -291,6 +291,7 @@ String password = '';
       'time': time.toString(),
       'timestamp': time,
       'password' : password,
+      'uid' : uid,
     });
     Fluttertoast.showToast(msg: 'Added Successfully!');
 

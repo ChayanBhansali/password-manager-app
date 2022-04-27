@@ -14,6 +14,7 @@ class _LoginState extends State<Login> {
   bool isLoginPage = false ;
   signin(String email , String password) async{
     final auth = FirebaseAuth.instance;
+    Center(child: CircularProgressIndicator());
     try {
       if(!isLoginPage) {
         UserCredential userCredential = await auth
