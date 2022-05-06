@@ -1,3 +1,4 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -35,8 +36,20 @@ class _LoginState extends State<Login> {
 
         );
       }
-    }catch(e){
-      print(e);
+    }catch (e){
+        print(e);
+      // switch(e.toString()){
+      //   case "Given String is empty or null":
+      //     Fluttertoast.showToast(msg: 'above entries cannot be empty');
+      //     break;
+      //   case "The email address is already in use by another account":
+      //     Fluttertoast.showToast(msg: 'The email address is already in use by another account');
+      //     break;
+      // }
+      // if(e == 'The email address is already in use by another account'){
+      //   Fluttertoast.showToast(msg: 'The email address is already in use by another account');
+      // }
+      // Fluttertoast.showToast(msg: 'The email address is already in use by another account');
     }
   }
   @override
@@ -86,15 +99,10 @@ SizedBox(height: 25,),
               padding: const EdgeInsets.fromLTRB(16, 25, 16, 20),
               child: TextFormField(
                 keyboardType: TextInputType.emailAddress,
+                style: TextStyle(
+                  color: Colors.white
+                ),
 
-                key: ValueKey('password'),
-                validator: (value) {
-                  if (value?.isEmpty ?? false ){
-                    print('Email cannot be empty');
-                  }else {
-                    return null;
-                  };
-                },
 
                 controller: emailController,
                 decoration: InputDecoration(
@@ -114,14 +122,10 @@ SizedBox(height: 25,),
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
               child: TextFormField(
                 obscureText: true,
-                key: ValueKey('password'),
-                validator: (value) {
-                  if (value?.isEmpty ?? false ){
-                   print('Password cannot be empty');
-                  }else {
-                    return null;
-                  };
-                },
+
+                style: TextStyle(
+                    color: Colors.white
+                ),
 
 
                 controller: passwordcontroller ,

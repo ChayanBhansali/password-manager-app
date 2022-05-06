@@ -44,6 +44,8 @@ dev_dependencies:
   random_password_generator: ^0.2.1
   fluttertoast:
   recase: ^4.0.0
+  dependencies:
+  animated_splash_screen: ^1.2.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

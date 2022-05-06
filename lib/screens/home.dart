@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,6 +15,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late bool firebaseison;
   String? uid = '';
   void initState() {
     getuid();
@@ -21,6 +24,14 @@ class _HomeState extends State<Home> {
   getuid() async{
     FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = await auth.currentUser;
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        firebaseison = true;
+      }
+    } on SocketException catch (_) {
+     firebaseison = false;
+    }
     setState(() {
       uid = user?.uid;
     });
@@ -31,7 +42,7 @@ class _HomeState extends State<Home> {
       backgroundColor: Color(0xff190e9c),
     appBar:AppBar(
       backgroundColor: Color(0xff0A0171),
-      title: Text('hello user',
+      title: Text('hello there',
         style: TextStyle(
           fontFamily: 'Raleway',
           color: Colors.white,
